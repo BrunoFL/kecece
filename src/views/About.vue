@@ -4,7 +4,7 @@
     <p>
         Grace à <a href="https://vuejs.org/"> VueJS</a> et
         <a href="https://firebase.google.com/">firebase</a>. C'est mon premier
-        projet avec ces 2 technologies
+        projet avec ces 2 technologies.
     </p>
 </div>
 </template>

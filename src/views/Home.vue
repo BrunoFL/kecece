@@ -1,14 +1,20 @@
 <template>
-<div class="home">
+  <div class="home">
     <h1>Kécécé</h1>
-    <p>Coucou</p>
-</div>
+  </div>
+  <Drawing v-bind:img="img" />
 </template>
 
 <script>
 // @ is an alias to /src
+import Drawing from "@/components/Drawing.vue";
 export default {
-    name: "Home",
-    components: {},
+  name: "Home",
+  components: {
+    Drawing,
+  },
+  data() {
+    return {};
+  },
 };
 </script>
