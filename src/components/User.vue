@@ -1,35 +1,29 @@
 <template>
-  <div>
-    <pre>{{ user }}</pre>
-    <h2>{{ username }}</h2>
-    <router-link v-show="!user || user.isAnonymous" to="Login"
-      >Se connecter</router-link
-    >
-  </div>
-
-  <button v-on:click="signout" v-show="user">Deconnexion</button>
+  <span v-show="isUserAuth"> 👉 {{ username }} 👈 | </span>
+  <router-link v-show="isUserAuth" to="Settings">Config</router-link>
+  <span v-show="isUserAuth"> | </span>
+  <router-link v-show="!isUserAuth" to="Login">Se connecter</router-link>
+  <router-link v-show="isUserAuth && user.isAnonymous" to="Login"
+    >Changer de compte</router-link
+  >
+  <span v-show="!isUserAuth || (isUserAuth && user.isAnonymous)"> | </span>
+  <button v-on:click="signOutAction" v-show="isUserAuth">Deconnexion</button>
 </template>
 
 <script>
-import { auth } from "../firebase";
-import { mapState, mapGetters } from "vuex";
+import { mapState, mapGetters, mapActions } from "vuex";
 
 export default {
-  name: "user",
-  beforeMount() {
-    auth.onAuthStateChanged((user) => {
-      console.log(user);
-      this.$store.commit("SIGN_IN", user);
-    });
-  },
+  name: "User",
   computed: {
     ...mapState(["user"]),
-    ...mapGetters(["username"]),
+    ...mapGetters(["username", "isUserAuth"]),
   },
   methods: {
-    signOut() {
-      auth.signOut();
-    },
+    ...mapActions(["signOutAction"]),
+  },
+  updated() {
+    console.log("updated", this.username);
   },
 };
 </script>

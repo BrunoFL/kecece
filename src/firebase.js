@@ -22,5 +22,6 @@ firebase.initializeApp(config);
 const db = firebase.firestore();
 const auth = firebase.auth();
 const ui = new firebaseui.auth.AuthUI(auth);
+const dbGames = db.collection("games");
 
-export { config, db, auth, ui };
+export { dbGames, firebase, config, db, auth, ui };
