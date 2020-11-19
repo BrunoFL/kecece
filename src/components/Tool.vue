@@ -9,7 +9,7 @@
 <script>
 export default {
   name: "tool",
-  props: ["event", "iconClass"],
+  props: ["event", "iconClass"]
 };
 </script>
 

@@ -5,7 +5,8 @@ import * as firebaseui from "firebaseui";
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-var config = {
+/* eslint-disable */
+const config = {
     apiKey: "AIzaSyCFaiQ6sXkimQi9k0kCY74OgSRAcZaUbsw",
     authDomain: "kecece-147e5.firebaseapp.com",
     databaseURL: "https://kecece-147e5.firebaseio.com",
@@ -15,6 +16,7 @@ var config = {
     appId: "1:668590162655:web:f29f9173b3c56ab489df6a",
     measurementId: "G-2PGQN36SS9"
 };
+
 // Initialize Firebase
 firebase.initializeApp(config);
 // firebase.analytics();
@@ -23,5 +25,6 @@ const db = firebase.firestore();
 const auth = firebase.auth();
 const ui = new firebaseui.auth.AuthUI(auth);
 const dbGames = db.collection("games");
+const dbStats = db.collection("stats");
 
-export { dbGames, firebase, config, db, auth, ui };
+export { dbStats, dbGames, firebase, config, db, auth, ui };

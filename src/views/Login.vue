@@ -16,20 +16,20 @@ export default {
   mounted() {
     const signInOptions = [
       firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-      firebase.auth.EmailAuthProvider.PROVIDER_ID,
+      firebase.auth.EmailAuthProvider.PROVIDER_ID
     ];
     if (!this.isUserAuth) {
       signInOptions.push("anonymous");
     }
     const uiConfig = {
       signInSuccessUrl: "/home",
-      signInOptions: signInOptions,
+      signInOptions: signInOptions
     };
     ui.start("#firebaseui-auth-container", uiConfig);
   },
   computed: {
     ...mapState(["user"]),
-    ...mapGetters(["username", "isUserAuth"]),
-  },
+    ...mapGetters(["username", "isUserAuth"])
+  }
 };
 </script>

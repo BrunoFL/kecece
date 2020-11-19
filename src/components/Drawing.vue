@@ -66,7 +66,7 @@ export default {
   components: {
     ColorPicker,
     Tool,
-    Editor,
+    Editor
   },
   data() {
     return {
@@ -75,16 +75,16 @@ export default {
       color: "black",
       size: 500,
       readOnly: this.img != null,
-      imgData: this.img ? Base64String.decompress(this.img) : "",
+      imgData: this.img ? Base64String.decompress(this.img) : ""
     };
   },
   props: {
     event: {
-      type: Function,
+      type: Function
     },
     img: {
-      type: String,
-    },
+      type: String
+    }
   },
   mounted() {
     this.params = { strokeWidth: "4" };
@@ -128,8 +128,8 @@ export default {
     },
     describe() {
       console.log("describe");
-    },
-  },
+    }
+  }
 };
 </script>
 

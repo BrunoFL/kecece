@@ -8,7 +8,7 @@
 <script>
 export default {
   name: "colorPicker",
-  props: ["color", "event"],
+  props: ["color", "event"]
 };
 </script>
 

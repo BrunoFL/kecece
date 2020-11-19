@@ -18,18 +18,18 @@ import { mapState, mapGetters, mapActions } from "vuex";
 export default {
   computed: {
     ...mapState(["user"]),
-    ...mapGetters(["username"]),
+    ...mapGetters(["username"])
   },
   data() {
     return {
-      name: null,
+      name: null
     };
   },
   methods: {
     ...mapActions(["updateNameAction"]),
     updateName() {
       this.updateNameAction(this.name);
-    },
-  },
+    }
+  }
 };
 </script>

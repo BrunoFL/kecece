@@ -1,12 +1,12 @@
 import { createStore } from "vuex";
-import { auth } from '../firebase'
+import { auth, dbGames } from "../firebase";
 
 export default createStore({
   state: {
     user: auth.currentUser,
     userData: {
       uid: null,
-      name: null
+      name: null,
     },
     game: {
       id: null,
@@ -14,8 +14,9 @@ export default createStore({
       started: false,
       code: null,
       players: [],
-      rounds: []
-    }
+      rounds: [],
+    },
+    unsubscribe: null,
   },
   getters: {
     username: (state, getters) => {
@@ -34,15 +35,15 @@ export default createStore({
     },
     gameStarted(state, getters) {
       return getters.inGame && !state.game.finished;
-    }
+    },
   },
   mutations: {
     SIGN_IN(state, user) {
       state.user = user;
       state.userData = {
         uid: user.uid,
-        name: user.displayName
-      }
+        name: user.displayName,
+      };
     },
     SIGN_OUT(state) {
       state.user = null;
@@ -52,13 +53,26 @@ export default createStore({
       state.userData = { ...state.userData, name };
     },
     UPDATE_GAME(state, game) {
-      console.log(game);
       state.game = game;
-    }
+    },
+    SUBSCRIBE(state, unsubscribe) {
+      console.log('unsubscribe', unsubscribe);
+      state.unsubscribe = unsubscribe;
+    },
+    LEAVE_GAME(state) {
+      state.game = {
+        id: null,
+        finished: false,
+        started: false,
+        code: null,
+        players: [],
+        rounds: [],
+      };
+    },
   },
   actions: {
     authAction({ commit }) {
-      auth.onAuthStateChanged(user => {
+      auth.onAuthStateChanged((user) => {
         if (user) {
           commit("SIGN_IN", user);
         } else {
@@ -67,13 +81,14 @@ export default createStore({
       });
     },
     signOutAction({ commit }) {
-      auth.signOut()
+      auth
+        .signOut()
         .then(() => {
           commit("SIGN_OUT");
         })
         .catch(() => {
           commit("SIGN_OUT");
-        })
+        });
     },
     updateNameAction({ commit, state }, name) {
       console.log("updateNameAction");
@@ -89,7 +104,14 @@ export default createStore({
             console.log(error);
           });
       }
-    }
+    },
+    destroyGame({ commit, state }) {
+      console.log("destroyGame");
+      if (state.game && state.game.id) {
+        dbGames.doc(state.game.id).delete();
+      }
+      commit("LEAVE_GAME");
+    },
   },
-  modules: {}
+  modules: {},
 });

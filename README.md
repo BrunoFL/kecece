@@ -2,6 +2,13 @@
 
 Jeu de dessin et de telephone arabe
 
+## Todos
+
+- Notification nouveau joueurs dans la room
+- Page de stats
+- Jeu
+- Suppression du compte
+
 ## Project setup
 ```
 npm install

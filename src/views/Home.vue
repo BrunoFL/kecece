@@ -14,11 +14,11 @@ import Game from "@/components/Game.vue";
 export default {
   name: "Home",
   components: {
-    Game,
+    Game
     // Drawing,
   },
   data() {
     return {};
-  },
+  }
 };
 </script>

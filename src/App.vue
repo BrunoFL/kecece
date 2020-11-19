@@ -4,19 +4,18 @@
     |
     <User />
     |
-
+    <router-link to="/Stats">Stats</router-link>
+    |
     <router-link to="/about">A propos</router-link>
   </div>
   <router-view />
 
-  <pre>{{ user }}</pre>
-  <pre>{{ userData }}</pre>
-  <pre>{{ game }}</pre>
+  <pre>{{ info }}</pre>
 </template>
 
 <script>
 import User from "@/components/User.vue";
-import { mapState, mapActions } from "vuex";
+import { mapActions } from "vuex";
 
 export default {
   name: "App",
@@ -27,7 +26,9 @@ export default {
     ...mapActions(["authAction"]),
   },
   computed: {
-    ...mapState(["user", "userData", "game"]),
+    info() {
+      return this.$store.state;
+    },
   },
   mounted() {
     this.authAction();
@@ -55,5 +56,12 @@ export default {
       color: #42b983;
     }
   }
+}
+
+pre {
+  border: 1px solid black;
+  background-color: rgba(200, 200, 200, 0.2);
+  font-size: 10px;
+  text-align: justify;
 }
 </style>
