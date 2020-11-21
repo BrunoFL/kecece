@@ -24,7 +24,7 @@ export default {
   },
   methods: {
     ...mapMutations(["UPDATE_GAME", "LEAVE_GAME", "SUBSCRIBE"]),
-    ...mapActions(["destroyGame"]),
+    ...mapActions(["destroyGame", "addStatsCreatedGame"]),
     createGame() {
       const code = this.createCode();
       const game = {
@@ -41,6 +41,7 @@ export default {
           this.$toast("Partie créée");
           game.id = doc.id;
           this.listen(game);
+          this.addStatsCreatedGame();
         })
         .catch((error) => {
           console.error(error);

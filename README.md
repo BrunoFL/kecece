@@ -5,9 +5,18 @@ Jeu de dessin et de telephone arabe
 ## Todos
 
 - Notification nouveau joueurs dans la room
-- Page de stats
+- Page de stats:
+    - En cours
 - Jeu
 - Suppression du compte
+- compteur partie jouée par user
+- spectateur
+- theme de mot
+- config partie 
+    - timer 
+    - authorisation couleur
+    - authorisation gomme
+    - authorisation forme &
 
 ## Project setup
 ```

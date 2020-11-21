@@ -4,6 +4,7 @@ import "./registerServiceWorker";
 import router from "./router";
 import store from "./store";
 import DKToast from "vue-dk-toast";
+import './assets/styles/index.css';
 
 createApp(App)
   .use(store)

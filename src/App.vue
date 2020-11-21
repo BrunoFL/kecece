@@ -1,26 +1,23 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Jouer</router-link>
-    |
-    <User />
-    |
-    <router-link to="/Stats">Stats</router-link>
-    |
-    <router-link to="/about">A propos</router-link>
-  </div>
-  <router-view />
+  <div class="bg-white dark:bg-gray-400 font-sans leading-normal tracking-normal">
+    <Nav />
 
-  <pre>{{ info }}</pre>
+    <div class="container shadow-lg mx-auto bg-white mt-24 md:mt-18">
+      <router-view />
+    </div>
+
+    <pre>{{ info }}</pre>
+  </div>
 </template>
 
 <script>
-import User from "@/components/User.vue";
+import Nav from "@/components/Nav.vue";
 import { mapActions } from "vuex";
 
 export default {
   name: "App",
   components: {
-    User,
+    Nav,
   },
   methods: {
     ...mapActions(["authAction"]),
@@ -36,26 +33,13 @@ export default {
 };
 </script>
 
-<style lang="less">
+<style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
 }
 
 pre {

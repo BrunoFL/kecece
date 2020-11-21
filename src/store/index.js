@@ -1,7 +1,8 @@
 import { createStore } from "vuex";
-import { auth, dbGames } from "../firebase";
+import { auth, dbGames, dbStats, firebase } from "../firebase";
 
 export default createStore({
+  strict: process.env.NODE_ENV !== 'production',
   state: {
     user: auth.currentUser,
     userData: {
@@ -17,6 +18,7 @@ export default createStore({
       rounds: [],
     },
     unsubscribe: null,
+    stats: null,
   },
   getters: {
     username: (state, getters) => {
@@ -56,7 +58,6 @@ export default createStore({
       state.game = game;
     },
     SUBSCRIBE(state, unsubscribe) {
-      console.log('unsubscribe', unsubscribe);
       state.unsubscribe = unsubscribe;
     },
     LEAVE_GAME(state) {
@@ -68,6 +69,9 @@ export default createStore({
         players: [],
         rounds: [],
       };
+    },
+    SET_STATS(state, payload) {
+      state.stats = payload;
     },
   },
   actions: {
@@ -111,6 +115,29 @@ export default createStore({
         dbGames.doc(state.game.id).delete();
       }
       commit("LEAVE_GAME");
+    },
+    gatherStats({ commit }) {
+      dbStats
+        .get()
+        .then((doc) => {
+          if (doc.exists) {
+            const newStats = doc.data();
+            commit("SET_STATS", newStats);
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+    addStatsCreatedGame() {
+      dbStats.update({
+        createdGames: firebase.firestore.FieldValue.increment(1),
+      });
+    },
+    addStatsFinishedGame() {
+      dbStats.update({
+        finishedGames: firebase.firestore.FieldValue.increment(1),
+      });
     },
   },
   modules: {},

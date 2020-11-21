@@ -14,7 +14,7 @@ const config = {
     storageBucket: "kecece-147e5.appspot.com",
     messagingSenderId: "668590162655",
     appId: "1:668590162655:web:f29f9173b3c56ab489df6a",
-    measurementId: "G-2PGQN36SS9"
+    measurementId: "G-2PGQN36SS9",
 };
 
 // Initialize Firebase
@@ -25,6 +25,6 @@ const db = firebase.firestore();
 const auth = firebase.auth();
 const ui = new firebaseui.auth.AuthUI(auth);
 const dbGames = db.collection("games");
-const dbStats = db.collection("stats");
+const dbStats = db.collection("stats").doc("LhfqSZs9SiUXqP0y059V");
 
 export { dbStats, dbGames, firebase, config, db, auth, ui };
