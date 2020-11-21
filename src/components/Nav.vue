@@ -1,11 +1,11 @@
 <template>
-  <nav class="flex items-center justify-between flex-wrap bg-gray-800 p-6 fixed w-full z-10 top-0">
-    <div class="flex items-center flex-no-shrink text-white mr-6">
+  <nav class="flex items-center justify-between flex-wrap bg-gray-800 p-5 fixed w-full z-10 top-0">
+    <div class="flex items-center flex-no-shrink text-white mr-3">
       <router-link to="/" class="text-white no-underline hover:text-white hover:no-underline">
         <h1 class="text-2xl pl-2">Kécécé</h1>
       </router-link>
-      <router-link v-show="isUserAuth" to="/Settings" class="text-white no-underline hover:text-white hover:no-underline ml-3">👉 {{ username }} 👈</router-link>
-      <router-link v-show="!isUserAuth" to="Login">Se connecter</router-link>
+      <router-link v-show="isUserAuth" to="/Settings" class="text-white no-underline hover:text-green hover:no-underline ml-3">👉 {{ username }} 👈</router-link>
+      <router-link v-show="!isUserAuth" to="Login" class="text-white no-underline hover:text-green hover:no-underline ml-3">Se connecter</router-link>
     </div>
 
     <div class="block lg:hidden" v-on:click="menu">
@@ -26,7 +26,7 @@
           <router-link to="Settings" class="inline-block py-2 px-4 text-white no-underline">Config</router-link>
         </li>
         <li v-show="isUserAuth && user.isAnonymous" class="mr-3">
-          <router-link to="Login" class="inline-block py-2 px-4 text-white no-underline"> Changer de compte </router-link>
+          <router-link to="Login" class="inline-block py-2 px-4 text-white no-underline">Changer de compte </router-link>
         </li>
         <li class="mr-3">
           <router-link to="Stats" class="inline-block py-2 px-4 text-white no-underline">Stats</router-link>
