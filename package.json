@@ -10,7 +10,6 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^5.15.1",
     "autoprefixer": "^9.8.6",
     "core-js": "^3.6.5",
     "firebase": "^8.0.2",

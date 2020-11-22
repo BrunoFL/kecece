@@ -1,7 +1,4 @@
 <template>
-  <div class="home">
-    <h1>Kécécé</h1>
-  </div>
   <!-- <Drawing v-bind:img="img"/> -->
   <Game />
 </template>

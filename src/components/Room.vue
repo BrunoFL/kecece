@@ -1,18 +1,13 @@
 <template>
   <div id="room">
     <div v-show="inGame">
-      <h1>{{ game.code }}</h1>
+      <h1 class="text-4xl mb-2">{{ game.code }}</h1>
       <div v-for="player in game.players" :key="player.userData">
         <span v-show="player.name">{{ player.name }}</span>
         <span v-show="!player.name">{{ player.uid }}</span>
       </div>
-      <button
-        v-on:click="startGame"
-        v-show="userData.uid == game.master && game.players.length >= 4"
-      >
-        Lancer
-      </button>
-      <button v-on:click="leaveGame">Quitter</button>
+      <button v-on:click="startGame" v-show="userData.uid == game.master && game.players.length >= 1" class="no-underline hover:text-green hover:no-underline ml-6 border-2 border-light-blue-500 border-opacity-100 rounded-full p-2 hover:bg-green-800">Lancer</button>
+      <button v-on:click="leaveGame" class="no-underline hover:text-green hover:no-underline ml-6 border-2 border-light-blue-500 border-opacity-100 rounded-full p-2 hover:bg-red-800 m-4">Quitter</button>
     </div>
   </div>
 </template>

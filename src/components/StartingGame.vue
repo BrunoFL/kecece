@@ -1,9 +1,13 @@
 <template>
   <div id="starting">
-    <div v-show="!inGame">
-      <button v-on:click="createGame">Créer une partie</button>
-      <input v-model="codeGame" type="text" />
-      <button v-on:click="tryJoinGame">Rejoindre une partie</button>
+    <div v-show="!inGame" class="flex flex-col divide-y-2">
+      <div class="flex flex-row">
+        <button v-on:click="createGame" class="no-underline hover:no-underline m-6 border-2 border-light-blue-500 border-opacity-100 rounded-full p-4 dark:bg-gray-600 bg-gray-200 hover:bg-blue-800 flex-grow text-lg">Créer une partie</button>
+      </div>
+      <div class="flex flex-row">
+        <input v-model="codeGame" type="text" class="block m-6 w-6 p-6 rounded-md h-8 flex-grow text-lg bg-gray-200 dark:bg-gray-600" placeholder="ABCD" />
+        <button v-on:click="tryJoinGame" class="no-underline hover:text-green hover:no-underline m-6 border-2 border-light-blue-500 border-opacity-100 rounded-full p-4 hover:bg-blue-800 bg-gray-200 dark:bg-gray-600 flex-grow text-lg">Rejoindre une partie</button>
+      </div>
     </div>
   </div>
 </template>
@@ -20,6 +24,7 @@ export default {
   data() {
     return {
       idGame: null,
+      codeGame: null,
     };
   },
   methods: {

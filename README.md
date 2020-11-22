@@ -17,6 +17,8 @@ Jeu de dessin et de telephone arabe
     - authorisation couleur
     - authorisation gomme
     - authorisation forme &
+- particles sur nav
+
 
 ## Project setup
 ```

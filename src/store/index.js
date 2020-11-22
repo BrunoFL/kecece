@@ -18,7 +18,7 @@ export default createStore({
       rounds: [],
     },
     unsubscribe: null,
-    stats: null,
+    stats: {},
   },
   getters: {
     username: (state, getters) => {

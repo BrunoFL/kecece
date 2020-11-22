@@ -1,9 +1,6 @@
 <template>
-  <h1>Se connecter</h1>
-  <div
-    v-show="!isUserAuth || user.isAnonymous"
-    id="firebaseui-auth-container"
-  ></div>
+  <h1 class="text-2xl pl-2">Se connecter</h1>
+  <div v-show="!isUserAuth || user.isAnonymous" id="firebaseui-auth-container" lang="fr"></div>
 </template>
 
 <script>
@@ -14,22 +11,19 @@ import { mapState, mapGetters } from "vuex";
 
 export default {
   mounted() {
-    const signInOptions = [
-      firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-      firebase.auth.EmailAuthProvider.PROVIDER_ID
-    ];
+    const signInOptions = [firebase.auth.GoogleAuthProvider.PROVIDER_ID, firebase.auth.EmailAuthProvider.PROVIDER_ID];
     if (!this.isUserAuth) {
       signInOptions.push("anonymous");
     }
     const uiConfig = {
       signInSuccessUrl: "/home",
-      signInOptions: signInOptions
+      signInOptions: signInOptions,
     };
     ui.start("#firebaseui-auth-container", uiConfig);
   },
   computed: {
     ...mapState(["user"]),
-    ...mapGetters(["username", "isUserAuth"])
-  }
+    ...mapGetters(["username", "isUserAuth"]),
+  },
 };
 </script>
