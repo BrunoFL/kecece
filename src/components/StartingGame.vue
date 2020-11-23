@@ -1,6 +1,6 @@
 <template>
   <div id="starting">
-    <div v-show="!inGame && user" class="flex flex-col divide-y-2">
+    <div v-show="!inGame && isUserAuth" class="flex flex-col divide-y-2">
       <div class="flex flex-row">
         <button v-on:click="createGame" class="no-underline hover:no-underline m-6 border-2 border-light-blue-500 border-opacity-100 rounded-full p-4 dark:bg-gray-600 bg-gray-200 hover:bg-blue-800 flex-grow text-lg">Créer une partie</button>
       </div>
@@ -19,7 +19,7 @@ export default {
   name: "StartingGame",
   computed: {
     ...mapState(["game", "userData"]),
-    ...mapGetters(["inGame", "gameStarted"]),
+    ...mapGetters(["inGame", "gameStarted", "isUserAuth"]),
   },
   data() {
     return {
