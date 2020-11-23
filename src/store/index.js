@@ -2,7 +2,7 @@ import { createStore } from "vuex";
 import { auth, dbGames, dbStats, firebase } from "../firebase";
 
 export default createStore({
-  strict: process.env.NODE_ENV !== 'production',
+  strict: process.env.NODE_ENV !== "production",
   state: {
     user: auth.currentUser,
     userData: {
@@ -19,6 +19,7 @@ export default createStore({
     },
     unsubscribe: null,
     stats: {},
+    isDark: true,
   },
   getters: {
     username: (state, getters) => {
@@ -73,14 +74,19 @@ export default createStore({
     SET_STATS(state, payload) {
       state.stats = payload;
     },
+    SET_DARK(state, dark) {
+      state.isDark = dark;
+    },
   },
   actions: {
-    authAction({ commit }) {
+    authAction({ commit }, clb) {
       auth.onAuthStateChanged((user) => {
         if (user) {
           commit("SIGN_IN", user);
+          clb(true)
         } else {
           commit("SIGN_OUT");
+          clb(false);
         }
       });
     },
@@ -108,6 +114,19 @@ export default createStore({
             console.log(error);
           });
       }
+    },
+    deleteUser({ commit }) {
+      return new Promise((resolve, reject) => {
+        auth.currentUser
+          .delete()
+          .then(() => {
+            commit("SIGN_OUT");
+            resolve();
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      });
     },
     destroyGame({ commit, state }) {
       console.log("destroyGame");

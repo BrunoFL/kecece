@@ -5,10 +5,10 @@
     <p class="mb-4">Dessinez le mot, puis decrivez le dessin du joueur précédent</p>
     <p>Ce jeu utilise :
     <ul class="list-inside list-disc">
-    <li><a href="https://vuejs.org/" class="hover:underline">VueJS</a></li>
-    <li><a href="https://firebase.google.com/">Firebase</a></li>
-    <li><a href="https://tailwindcss.com/">tailwindcss</a></li>
-<li><a href="https://github.com">GitHub</a> <a href="https://github.com/BrunoFL/kecece">repo</a></li>
+    <li><a target="_blank" href="https://vuejs.org/" class="">VueJS</a></li>
+    <li><a target="_blank" href="https://firebase.google.com/">Firebase</a></li>
+    <li><a target="_blank" href="https://tailwindcss.com/">tailwindcss</a></li>
+<li><a target="_blank" href="https://github.com" >GitHub</a> <a target="_blank" href="https://github.com/BrunoFL/kecece">repo</a></li>
     </ul>
     </p>
     

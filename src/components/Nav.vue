@@ -1,15 +1,15 @@
 <template>
   <nav id="nav" class="flex items-center justify-between flex-wrap bg-gray-200 dark:bg-gray-800 p-2 fixed w-full z-10 top-0">
     <div class="flex items-center flex-no-shrink mr-3">
-      <router-link to="/" class="no-underline hover:no-underline">
+      <router-link to="/" class="no-underline hover:no-underline text-black dark:text-white">
         <h1 class="text-2xl pl-2">Kécécé</h1>
       </router-link>
       <router-link v-show="isUserAuth" to="/Settings" class="no-underline hover:no-underline ml-3">👉 {{ username }} 👈</router-link>
-      <router-link v-show="!isUserAuth" to="Login" class="no-underline hover:no-underline ml-6 border-2 border-light-blue-500 border-opacity-100 rounded-full p-2 hover:bg-blue-800">Se connecter</router-link>
+      <router-link v-show="!isUserAuth" to="Login" class="btn animate-pulse ml-6">Se connecter</router-link>
     </div>
 
     <div class="block lg:hidden" v-on:click="menu">
-      <button id="nav-toggle" class="flex items-center px-3 py-2 border rounded border-grey-dark hover:border-white">
+      <button id="nav-toggle" class="flex items-center px-3 py-2">
         <svg class="fill-current h-3 w-3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
           <title>Menu</title>
           <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
@@ -39,7 +39,7 @@
         </li>
       </ul>
       <div>
-        <Toggle label="dark" v-bind:checked="isDark" v-on:toggled="updateDark" class="inline-block py-2 px-4 no-underline" />
+        <Toggle label="dark" v-bind:checked="isDark" v-on:toggled="updateDark" />
       </div>
     </div>
   </nav>
@@ -48,21 +48,15 @@
 
 <script>
 import Toggle from "@/components/Toggle.vue";
-import { mapState, mapGetters, mapActions } from "vuex";
-import config from "../particles";
+import { mapState, mapGetters, mapActions, mapMutations } from "vuex";
 export default {
   name: "App",
   components: {
     Toggle,
   },
-  data: function () {
-    return {
-      isDark: false,
-      configParticles: config,
-    };
-  },
   methods: {
     ...mapActions(["signOutAction"]),
+    ...mapMutations(["SET_DARK"]),
     setDark() {
       if (localStorage.theme === "dark" || (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
         document.querySelector("html").classList.add("dark");
@@ -73,7 +67,6 @@ export default {
       }
     },
     updateDark(payload) {
-      this.isDark = payload;
       if (payload) {
         document.querySelector("html").classList.add("dark");
         localStorage.theme = "dark";
@@ -81,13 +74,16 @@ export default {
         document.querySelector("html").classList.remove("dark");
         localStorage.theme = "light";
       }
+      if (this.isDark != payload) {
+        this.SET_DARK(payload);
+      }
     },
     menu() {
       document.getElementById("nav-content").classList.toggle("hidden");
     },
   },
   computed: {
-    ...mapState(["user"]),
+    ...mapState(["user", "isDark"]),
     ...mapGetters(["username", "isUserAuth"]),
   },
   mounted() {

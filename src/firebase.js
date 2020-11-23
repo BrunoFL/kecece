@@ -23,6 +23,7 @@ firebase.initializeApp(config);
 
 const db = firebase.firestore();
 const auth = firebase.auth();
+auth.useDeviceLanguage();
 const ui = new firebaseui.auth.AuthUI(auth);
 const dbGames = db.collection("games");
 const dbStats = db.collection("stats").doc("LhfqSZs9SiUXqP0y059V");

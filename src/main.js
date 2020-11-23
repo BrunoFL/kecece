@@ -5,7 +5,6 @@ import router from "./router";
 import store from "./store";
 import DKToast from "vue-dk-toast";
 import './assets/styles/index.css';
-import Particles from "particles.vue3";
 
 createApp(App)
   .use(store)
@@ -19,5 +18,4 @@ createApp(App)
       backgroundColor: "#fff"
     }
   })
-  .use(Particles)
   .mount("#app");

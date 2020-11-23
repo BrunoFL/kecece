@@ -1,3 +1,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  a[target="_blank"] {
+    @apply hover:underline text-indigo-800;
+  }
+
+  button,
+  .btn {
+    @apply rounded-full text-black dark:text-white p-2 hover:bg-blue-800 border-2 cursor-pointer;
+  }
+}
