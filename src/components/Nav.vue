@@ -18,7 +18,7 @@
     </div>
 
     <div class="w-full flex-grow lg:flex lg:items-center lg:w-auto hidden lg:block pt-6 lg:pt-0" id="nav-content">
-      <ul class="list-reset lg:flex justify-end flex-1 items-center">
+      <ul v-on:click.capture="menu" class="list-reset lg:flex justify-end flex-1 items-center">
         <li class="mr-3">
           <router-link to="/" class="inline-block py-2 px-4 no-underline">Jouer</router-link>
         </li>

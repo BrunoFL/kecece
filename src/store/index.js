@@ -83,7 +83,7 @@ export default createStore({
       auth.onAuthStateChanged((user) => {
         if (user) {
           commit("SIGN_IN", user);
-          clb(true)
+          clb(true);
         } else {
           commit("SIGN_OUT");
           clb(false);
@@ -130,7 +130,7 @@ export default createStore({
     },
     destroyGame({ commit, state }) {
       console.log("destroyGame");
-      if (state.game && state.game.id) {
+      if (state.game && state.game.id && state.game.master == state.user.uid) {
         dbGames.doc(state.game.id).delete();
       }
       commit("LEAVE_GAME");
@@ -147,11 +147,6 @@ export default createStore({
         .catch((error) => {
           console.error(error);
         });
-    },
-    addStatsCreatedGame() {
-      dbStats.update({
-        createdGames: firebase.firestore.FieldValue.increment(1),
-      });
     },
     addStatsFinishedGame() {
       dbStats.update({

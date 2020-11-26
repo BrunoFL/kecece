@@ -20,7 +20,18 @@ export default {
     Nav,
   },
   methods: {
-    ...mapActions(["authAction"]),
+    ...mapActions(["authAction", "destroyGame"]),
+    addScript(url) {
+      const scriptTag = document.createElement("script");
+      scriptTag.src = url;
+      document.getElementsByTagName("head")[0].appendChild(scriptTag);
+    },
+    addStyle(url) {
+      const styleTag = document.createElement("link");
+      styleTag.rel = "stylesheet";
+      styleTag.href = url;
+      document.getElementsByTagName("head")[0].appendChild(styleTag);
+    },
   },
   computed: {
     info() {
@@ -35,6 +46,10 @@ export default {
         this.$router.push("/login");
       }
     });
+    this.addStyle("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css");
+  },
+  unmounted() {
+    this.destroyGame();
   },
 };
 </script>

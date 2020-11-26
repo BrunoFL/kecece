@@ -1,5 +1,4 @@
 <template>
-  <!-- <Drawing v-bind:img="img"/> -->
   <Game />
 </template>
 
@@ -12,10 +11,6 @@ export default {
   name: "Home",
   components: {
     Game,
-    // Drawing,
-  },
-  data() {
-    return {};
   },
 };
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <div id="drawing" class="main">
+  <div id="drawing" v-show="game.started" class="main">
     <div v-show="!this.readOnly" class="editor-container">
       <div class="editor">
         <div class="current-color" :style="{ backgroundColor: color }"></div>
@@ -10,29 +10,13 @@
 
         <Tool :event="() => clear()" :iconClass="'fas fa-trash-alt fa-lg'" />
 
-        <Tool
-          :event="() => setTool('freeDrawing', params)"
-          :iconClass="'fas fa-pencil-alt fa-lg'"
-          :class="{ 'active-tool': currentActiveMethod === 'freeDrawing' }"
-        />
+        <Tool :event="() => setTool('freeDrawing', params)" :iconClass="'fas fa-pencil-alt fa-lg'" :class="{ 'active-tool': currentActiveMethod === 'freeDrawing' }" />
 
-        <Tool
-          :event="() => setTool('circle', params)"
-          :iconClass="'far fa-circle fa-lg'"
-          :class="{ 'active-tool': currentActiveMethod === 'circle' }"
-        />
+        <Tool :event="() => setTool('circle', params)" :iconClass="'far fa-circle fa-lg'" :class="{ 'active-tool': currentActiveMethod === 'circle' }" />
 
-        <Tool
-          :event="() => setTool('rect', params)"
-          :iconClass="'far fa-square fa-lg'"
-          :class="{ 'active-tool': currentActiveMethod === 'rect' }"
-        />
+        <Tool :event="() => setTool('rect', params)" :iconClass="'far fa-square fa-lg'" :class="{ 'active-tool': currentActiveMethod === 'rect' }" />
 
-        <Tool
-          :event="() => setTool('arrow', params)"
-          :iconClass="'fas fa-long-arrow-alt-down fa-lg'"
-          :class="{ 'active-tool': currentActiveMethod === 'arrow' }"
-        />
+        <Tool :event="() => setTool('arrow', params)" :iconClass="'fas fa-long-arrow-alt-down fa-lg'" :class="{ 'active-tool': currentActiveMethod === 'arrow' }" />
       </div>
       <div class="colors">
         <ColorPicker :color="'#e40000'" :event="changeColor" />
@@ -58,15 +42,17 @@
 import Editor from "vue-image-markup";
 import Tool from "@/components/Tool.vue";
 import ColorPicker from "@/components/ColorPicker.vue";
-import "@fortawesome/fontawesome-free/css/all.css";
-import "@fortawesome/fontawesome-free/js/all.js";
+// import "@fortawesome/fontawesome-free/css/all.css";
+// import "@fortawesome/fontawesome-free/js/all.js";
 import Base64String from "lz-string";
+import { mapState, mapGetters, mapMutations } from "vuex";
+
 export default {
   name: "Drawing",
   components: {
     ColorPicker,
     Tool,
-    Editor
+    Editor,
   },
   data() {
     return {
@@ -75,20 +61,25 @@ export default {
       color: "black",
       size: 500,
       readOnly: this.img != null,
-      imgData: this.img ? Base64String.decompress(this.img) : ""
+      imgData: this.img ? Base64String.decompress(this.img) : "",
     };
   },
   props: {
     event: {
-      type: Function
+      type: Function,
     },
     img: {
-      type: String
-    }
+      type: String,
+    },
   },
   mounted() {
     this.params = { strokeWidth: "4" };
     this.setTool("freeDrawing", this.params);
+  },
+  computed: {
+    ...mapState(["game", "userData", "unsubscribe"]),
+    ...mapGetters(["inGame", "gameStarted"]),
+    ...mapMutations(["UPDATE_GAME", "LEAVE_GAME"]),
   },
   methods: {
     saveImage() {
@@ -128,8 +119,8 @@ export default {
     },
     describe() {
       console.log("describe");
-    }
-  }
+    },
+  },
 };
 </script>
 

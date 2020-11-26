@@ -18,6 +18,7 @@ Jeu de dessin et de telephone arabe
     - authorisation gomme
     - authorisation forme &
 - particles sur nav
+- verifications code game (cloud function ?)
 
 
 ## Project setup

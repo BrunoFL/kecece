@@ -1,6 +1,8 @@
 import firebase from "firebase/app";
+import "firebase/functions";
 import "firebase/auth";
 import "firebase/firestore";
+import "firebase/analytics";
 import * as firebaseui from "firebaseui";
 
 // Your web app's Firebase configuration
@@ -19,13 +21,15 @@ const config = {
 
 // Initialize Firebase
 firebase.initializeApp(config);
-// firebase.analytics();
+firebase.analytics();
 
 const db = firebase.firestore();
 const auth = firebase.auth();
 auth.useDeviceLanguage();
 const ui = new firebaseui.auth.AuthUI(auth);
+const fcts = firebase.functions();
+fcts.useEmulator("localhost", 5001);
 const dbGames = db.collection("games");
 const dbStats = db.collection("stats").doc("LhfqSZs9SiUXqP0y059V");
 
-export { dbStats, dbGames, firebase, config, db, auth, ui };
+export { dbStats, fcts, dbGames, firebase, config, db, auth, ui };

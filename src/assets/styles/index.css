@@ -9,6 +9,10 @@
 
   button,
   .btn {
-    @apply rounded-full text-black dark:text-white p-2 hover:bg-blue-800 border-2 cursor-pointer;
+    @apply rounded-full text-black dark:text-white p-2 hover:bg-blue-800 border-2 cursor-pointer text-lg;
+  }
+
+  input[type="text"] {
+    @apply p-4 rounded-md border-2 text-lg h-20;
   }
 }

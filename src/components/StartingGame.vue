@@ -2,18 +2,18 @@
   <div id="starting">
     <div v-show="!inGame && isUserAuth" class="flex flex-col divide-y-2">
       <div class="flex flex-row">
-        <button v-on:click="createGame" class="no-underline hover:no-underline m-6 border-2 border-light-blue-500 border-opacity-100 rounded-full p-4 dark:bg-gray-600 bg-gray-200 hover:bg-blue-800 flex-grow text-lg">Créer une partie</button>
+        <button v-on:click="createGameFunction" class="m-6 flex-grow bg-gray-200 dark:bg-gray-600 p-6">Créer une partie</button>
       </div>
       <div class="flex flex-row">
-        <input v-model="codeGame" type="text" class="block m-6 w-6 p-6 rounded-md h-8 flex-grow text-lg bg-gray-200 dark:bg-gray-600" placeholder="ABCD" />
-        <button v-on:click="tryJoinGame" class="no-underline hover:text-green hover:no-underline m-6 border-2 border-light-blue-500 border-opacity-100 rounded-full p-4 hover:bg-blue-800 bg-gray-200 dark:bg-gray-600 flex-grow text-lg">Rejoindre une partie</button>
+        <input v-model="codeGame" type="text" class="block m-6 flex-grow bg-gray-200 dark:bg-gray-600 p-6" placeholder="ABCD" />
+        <button v-on:click="tryJoinGame" class="bg-gray-200 dark:bg-gray-600 hover:bg-blue-800 m-6 flex-grow p-6">Rejoindre une partie</button>
       </div>
     </div>
   </div>
 </template>
 <script>
 import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
-import { dbGames, firebase } from "../firebase";
+import { dbGames, firebase, fcts } from "../firebase";
 
 export default {
   name: "StartingGame",
@@ -53,6 +53,22 @@ export default {
           this.$toast("Erreur création de la partie");
         });
     },
+    createGameFunction() {
+      console.log("create");
+      const createGameFct = fcts.httpsCallable("createGame");
+      createGameFct({
+        name: this.userData.name,
+      })
+        .then((doc) => {
+          console.log(doc);
+          this.$toast("Partie créée");
+          this.listen(doc.result);
+        })
+        .catch((error) => {
+          console.error(error);
+          this.$toast("Erreur création de la partie");
+        });
+    },
     tryJoinGame() {
       this.getGameByCode(this.codeGame);
     },
@@ -80,7 +96,7 @@ export default {
     },
     getGameByCode(code) {
       dbGames
-        .where("code", "==", code.toUpperCase())
+        .where("code", "==", code.trim().toUpperCase())
         .where("finished", "==", false)
         .where("started", "==", false)
         .limit(1)

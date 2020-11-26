@@ -26,6 +26,7 @@ export default {
         signInOptions.push("anonymous");
       }
       const uiConfig = {
+        signInFlow: "popup",
         signInSuccessUrl: "/home",
         signInOptions: signInOptions,
       };

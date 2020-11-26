@@ -1,13 +1,12 @@
 <template>
-  <div id="room">
-    <div v-show="inGame">
-      <h1 class="text-4xl mb-2">{{ game.code }}</h1>
-      <div v-for="player in game.players" :key="player.userData">
-        <span v-show="player.name">{{ player.name }}</span>
-        <span v-show="!player.name">{{ player.uid }}</span>
-      </div>
-      <button v-on:click="startGame" v-show="userData.uid == game.master && game.players.length >= 1" class="no-underline hover:text-green hover:no-underline ml-6 border-2 border-light-blue-500 border-opacity-100 rounded-full p-2 hover:bg-green-800">Lancer</button>
-      <button v-on:click="leaveGame" class="no-underline hover:text-green hover:no-underline ml-6 border-2 border-light-blue-500 border-opacity-100 rounded-full p-2 hover:bg-red-800 m-4">Quitter</button>
+  <div v-show="inGame && !game.started" id="room" class="flex flex-col">
+    <h1 class="flex-grow text-4xl mb-2">👉 {{ game.code }} 👈</h1>
+    <div class="flex flex-wrap">
+      <span v-for="player in game.players" :key="player.userData">{{ player.name || player.uid }}</span>
+    </div>
+    <div class="flex flex-row">
+      <button v-on:click="startGame" v-show="userData.uid == game.master && game.players.length >= 1" class="m-6 flex-grow">Lancer</button>
+      <button v-on:click="leaveGame" class="m-6 flex-grow hover:bg-red-800">Quitter</button>
     </div>
   </div>
 </template>
@@ -39,7 +38,14 @@ export default {
       }
       this.$toast("Partie quittée");
     },
-    startGame() {},
+    startGame() {
+      dbGames.doc(this.game.id).update({ started: true });
+    },
   },
 };
 </script>
+<style scoped>
+span {
+  @apply h-8 m-2;
+}
+</style>
