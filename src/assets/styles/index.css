@@ -15,4 +15,8 @@
   input[type="text"] {
     @apply p-4 rounded-md border-2 text-lg h-20;
   }
+
+  h1{
+    @apply text-2xl text-white
+  }
 }

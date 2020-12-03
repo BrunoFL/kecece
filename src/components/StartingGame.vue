@@ -30,42 +30,16 @@ export default {
   methods: {
     ...mapMutations(["UPDATE_GAME", "LEAVE_GAME", "SUBSCRIBE"]),
     ...mapActions(["destroyGame", "addStatsCreatedGame"]),
-    createGame() {
-      const code = this.createCode();
-      const game = {
-        finished: false,
-        started: false,
-        code: code,
-        players: [{ uid: this.userData.uid, name: this.userData.name }],
-        rounds: [],
-        master: this.userData.uid,
-      };
-      dbGames
-        .add(game)
-        .then((doc) => {
-          this.$toast("Partie créée");
-          game.id = doc.id;
-          this.listen(game);
-          this.addStatsCreatedGame();
-        })
-        .catch((error) => {
-          console.error(error);
-          this.$toast("Erreur création de la partie");
-        });
-    },
     createGameFunction() {
-      console.log("create");
       const createGameFct = fcts.httpsCallable("createGame");
       createGameFct({
         name: this.userData.name,
       })
         .then((doc) => {
-          console.log(doc);
           this.$toast("Partie créée");
-          this.listen(doc.result);
+          this.listen(doc.data);
         })
-        .catch((error) => {
-          console.error(error);
+        .catch(() => {
           this.$toast("Erreur création de la partie");
         });
     },

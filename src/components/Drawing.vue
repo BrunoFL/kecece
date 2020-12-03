@@ -1,6 +1,7 @@
 <template>
   <div id="drawing" v-show="game.started" class="main">
-    <div v-show="!this.readOnly" class="editor-container">
+    <div v-show="this.isDrawing" class="editor-container">
+      <h1 class="mb-4">Dessiner 👉 {{ getWord }} 👈</h1>
       <div class="editor">
         <div class="current-color" :style="{ backgroundColor: color }"></div>
 
@@ -28,12 +29,12 @@
         <ColorPicker :color="'#00008b'" :event="changeColor" />
         <ColorPicker :color="'#000000'" :event="changeColor" />
       </div>
-      <button @click="validate()">Valider le dessin</button>
       <Editor :canvasWidth="size" :canvasHeight="size" ref="editor" />
+      <button @click="validate()">Valider le dessin</button>
     </div>
   </div>
-  <div v-show="this.readOnly">
-    <button v-show="this.readOnly" @click="describe()">Valider</button>
+  <div v-show="!this.isDrawing">
+    <button @click="describe()">Valider</button>
     <img v-bind:src="this.imgData" />
   </div>
 </template>
@@ -42,10 +43,9 @@
 import Editor from "vue-image-markup";
 import Tool from "@/components/Tool.vue";
 import ColorPicker from "@/components/ColorPicker.vue";
-// import "@fortawesome/fontawesome-free/css/all.css";
-// import "@fortawesome/fontawesome-free/js/all.js";
 import Base64String from "lz-string";
 import { mapState, mapGetters, mapMutations } from "vuex";
+import { fcts } from "../firebase";
 
 export default {
   name: "Drawing",
@@ -60,17 +60,8 @@ export default {
       params: null,
       color: "black",
       size: 500,
-      readOnly: this.img != null,
       imgData: this.img ? Base64String.decompress(this.img) : "",
     };
-  },
-  props: {
-    event: {
-      type: Function,
-    },
-    img: {
-      type: String,
-    },
   },
   mounted() {
     this.params = { strokeWidth: "4" };
@@ -80,17 +71,25 @@ export default {
     ...mapState(["game", "userData", "unsubscribe"]),
     ...mapGetters(["inGame", "gameStarted"]),
     ...mapMutations(["UPDATE_GAME", "LEAVE_GAME"]),
+    getWord() {
+      if (!this.game || !this.game.rounds || this.game.rounds.length == 0) return "";
+      const round = this.game.rounds[this.game.round];
+      const parts = round.parts;
+      const word = parts.find((round) => round.uid == this.userData.uid);
+      console.log(word);
+      return word.word;
+    },
   },
   methods: {
+    isDrawing() {
+      return this.game.round % 2 == 0;
+    },
     saveImage() {
       const img = this.$refs.editor.saveImage();
-      console.log("size ", img.length);
       var compressed = Base64String.compress(img);
-      console.log("Size of compressed sample is: " + compressed.length);
       return compressed;
     },
     setTool(type, params) {
-      console.log(params);
       this.currentActiveMethod = type;
       this.$refs.editor.set(type, params);
     },
@@ -114,8 +113,18 @@ export default {
       this.$refs.editor.redo();
     },
     validate() {
-      //   const img = this.saveImage();
-      //   console.log(img);
+      const img = this.saveImage();
+      const addPart = fcts.httpsCallable("addPart");
+      addPart({
+        gameId: this.game.id,
+        draw: img,
+      })
+        .then(() => {
+          this.$toast("Dessin validé");
+        })
+        .catch(() => {
+          this.$toast("Erreur validation du dessin");
+        });
     },
     describe() {
       console.log("describe");
@@ -131,7 +140,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 50px;
   display: flex;
   justify-content: center;
 }

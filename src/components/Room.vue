@@ -5,14 +5,14 @@
       <span v-for="player in game.players" :key="player.userData">{{ player.name || player.uid }}</span>
     </div>
     <div class="flex flex-row">
-      <button v-on:click="startGame" v-show="userData.uid == game.master && game.players.length >= 1" class="m-6 flex-grow">Lancer</button>
+      <button v-on:click="startGame" v-show="userData.uid == game.master && game.players.length >= 0" class="m-6 flex-grow">Lancer</button>
       <button v-on:click="leaveGame" class="m-6 flex-grow hover:bg-red-800">Quitter</button>
     </div>
   </div>
 </template>
 <script>
 import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
-import { dbGames, firebase } from "../firebase";
+import { dbGames, firebase, fcts } from "../firebase";
 
 export default {
   name: "Room",
@@ -39,7 +39,10 @@ export default {
       this.$toast("Partie quittée");
     },
     startGame() {
-      dbGames.doc(this.game.id).update({ started: true });
+      const startGame = fcts.httpsCallable("startGame");
+      startGame({
+        game: this.game,
+      });
     },
   },
 };

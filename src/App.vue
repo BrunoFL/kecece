@@ -1,5 +1,8 @@
 <template>
-  <div id="app" class="bg-white dark:bg-gray-400 font-sans leading-normal tracking-normal text-black dark:text-white overflow-x-hidden h-screen">
+  <div
+    id="app"
+    class="bg-white dark:bg-gray-400 font-sans leading-normal tracking-normal text-black dark:text-white overflow-x-hidden h-screen"
+  >
     <Nav />
 
     <div class="container mx-auto mt-24 pt-2">
@@ -46,7 +49,9 @@ export default {
         this.$router.push("/login");
       }
     });
-    this.addStyle("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css");
+    this.addStyle(
+      "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+    );
   },
   unmounted() {
     this.destroyGame();
